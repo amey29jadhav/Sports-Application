@@ -2,9 +2,9 @@ package com.amey.sports_android.utilities;
 
 public class AppConstant {
 
-    public static final String API_KEY ="1";
+    public static final String API_KEY ="1/";
     public static final String API_HOST_NAME ="https://www.thesportsdb.com";
-    public static final String PATH_NAME ="api/v1/json";
+    public static final String PATH_NAME ="/api/v1/json/";
 
 
     // Search

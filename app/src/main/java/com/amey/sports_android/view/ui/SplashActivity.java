@@ -8,6 +8,18 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.amey.sports_android.R;
+import com.amey.sports_android.service.model.SportsModel;
+import com.amey.sports_android.service.repository.GameService;
+import com.amey.sports_android.service.repository.RetrofitClientInstance;
+import com.amey.sports_android.service.repository.SportsApi;
+import com.amey.sports_android.utilities.AppConstant;
+import com.amey.sports_android.view.callback.ResultInterface;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -28,5 +40,7 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         },5000);
+            //SportsApi.newInstance().getAllTeams();
+
     }
 }

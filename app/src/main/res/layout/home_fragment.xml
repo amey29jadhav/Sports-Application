@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.ui.HomeFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/upcomingGameRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:text="Hello" />
+
+    <RelativeLayout
+        android:id="@+id/headerview"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/upcomingGameRecyclerView"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/gray"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@id/headertextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LAST EVENTS"></TextView>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pastGameRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerview"
+        android:orientation="vertical"
+        android:text="Hello" />
+
+</RelativeLayout>

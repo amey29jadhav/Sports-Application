@@ -19,7 +19,7 @@ public class LeagueViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Leagues>> getLeagueListObservable(SportsApi sportsApi) {
-        return sportsApi.getAllLeague();
+        return sportsApi.getAllLeague(null);
 
     }
     // TODO: Implement the ViewModel

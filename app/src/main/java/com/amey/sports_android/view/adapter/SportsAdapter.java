@@ -1,13 +1,19 @@
 package com.amey.sports_android.view.adapter;
 
+import android.content.Context;
 import android.graphics.Movie;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DiffUtil;
@@ -15,19 +21,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.Sports;
+import com.amey.sports_android.utilities.PicassoCircleTransformation;
 import com.amey.sports_android.view.ui.SportsFragment;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
-public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportsViewHolder> {
+public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportsViewHolder> implements Filterable {
 
     List<Sports> sportsList;
+    List<Sports> filterSportsList;
     SportsFragment.ClickCallback clickCallback;
+    Context context;
+    private Typeface fontAwesomeFont;
 
-    public SportsAdapter(SportsFragment.ClickCallback clickCallback){
+
+    public SportsAdapter(Context context, SportsFragment.ClickCallback clickCallback){
+        this.context = context;
         this.clickCallback = clickCallback;
+        fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
+
     }
     public void setSportList(final List<Sports> sports) {
        /* if (this.sportsList == null) {
@@ -64,18 +80,22 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportsView
 
         }*/
         this.sportsList = sports;
+        this.filterSportsList = sports;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public SportsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SportsAdapter.SportsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sports_list_item, parent, false);
         return new SportsViewHolder(view);
+
     }
 
+
+
     private Sports getItem(int position) {
-        return sportsList.get(position);
+        return filterSportsList.get(position);
     }
 
 
@@ -87,27 +107,66 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportsView
 
     @Override
     public int getItemCount() {
-        return sportsList == null ? 0 : sportsList.size();
+        return filterSportsList == null ? 0 : filterSportsList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filterSportsList = sportsList;
+                } else {
+                    List<Sports> filteredList = new ArrayList<>();
+                    for (Sports row : sportsList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.strSport.toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    filterSportsList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filterSportsList;
+                filterResults.count = filterSportsList.size();
+                return filterResults;
+            }
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filterSportsList = (ArrayList<Sports>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 
     public class SportsViewHolder extends RecyclerView.ViewHolder{
 
-        TextView nameTextView;
+        AppCompatTextView nameTextView, arrowTextview;
         AppCompatImageView gamelogo;
-        CardView cardView;
+        RelativeLayout headerContainer;
 
         public SportsViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView = itemView.findViewById(R.id.itemContainer);
-
+            headerContainer = itemView.findViewById(R.id.headerContainer);
+            headerContainer.setBackgroundColor(context.getResources().getColor( R.color.white));
             nameTextView = itemView.findViewById(R.id.name);
+            arrowTextview = itemView.findViewById(R.id.arrowTextview);
+            arrowTextview.setTypeface(fontAwesomeFont);
             gamelogo = itemView.findViewById(R.id.gamelogo);
         }
         void bind(int position) {
             final Sports sports = getItem(position);
             nameTextView.setText(sports.strSport);
-            Picasso.get().load(sports.strSportThumb).into(gamelogo);
-            cardView.setOnClickListener(new View.OnClickListener() {
+            arrowTextview.setText(context.getResources().getString(R.string.fa_angle_right));
+            Picasso.get().load(sports.strSportThumb).transform(new PicassoCircleTransformation()).into(gamelogo);
+            headerContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(clickCallback != null){
@@ -120,6 +179,7 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportsView
 
         }
     }
+
 
 
 }

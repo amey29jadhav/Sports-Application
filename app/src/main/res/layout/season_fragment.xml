@@ -4,15 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.ui.LeagueFragment">
+    tools:context=".view.ui.SeasonFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/leagueRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/seasonRecyclerView"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-
-         />
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.amey.sports_android.service.model.Sports;
 import com.amey.sports_android.service.repository.SportsApi;
+import com.amey.sports_android.view.ui.MainActivity;
 
 import java.util.List;
 
@@ -22,7 +23,11 @@ public class SportsViewModel extends AndroidViewModel {
     // TODO: Implement the ViewModel
 
     public LiveData<List<Sports>> getSportsListObservable(SportsApi sportsApi) {
-        return sportsApi.getAllTeams();
+        return sportsApi.getAllSports(null);
 
+    }
+
+    public List<Sports> getSportListObservable1(){
+        return MainActivity.lstsports;
     }
 }

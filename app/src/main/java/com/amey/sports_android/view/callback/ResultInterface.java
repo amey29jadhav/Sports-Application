@@ -1,8 +1,12 @@
 package com.amey.sports_android.view.callback;
 
-public interface ResultInterface {
+import java.util.List;
 
-     void onSuccess();
+public interface ResultInterface<T> {
+
+     void onSuccess(List<T> list);
 
      void onError();
+
+
 }

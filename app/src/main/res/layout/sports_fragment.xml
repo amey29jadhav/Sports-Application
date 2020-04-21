@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".view.ui.SportsFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchview"
         android:background="@drawable/bg_white_rounded"
         android:layout_width="match_parent"
-        app:queryHint="Search notes"
-        android:padding="10dp"
+        app:queryHint="Search Sport"
+        android:layout_margin="10dp"
         android:layout_height="wrap_content">
     </androidx.appcompat.widget.SearchView>
 
@@ -22,6 +23,7 @@
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-         />
+
+        />
 
 </RelativeLayout>

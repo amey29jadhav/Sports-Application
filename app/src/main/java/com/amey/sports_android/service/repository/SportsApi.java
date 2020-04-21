@@ -1,18 +1,19 @@
 package com.amey.sports_android.service.repository;
 
-import android.content.Intent;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.amey.sports_android.service.model.EventsModel;
+import com.amey.sports_android.service.model.LastEventModel;
 import com.amey.sports_android.service.model.Leagues;
 import com.amey.sports_android.service.model.LeaguesModel;
+import com.amey.sports_android.service.model.SeasonModel;
 import com.amey.sports_android.service.model.Sports;
 import com.amey.sports_android.service.model.SportsModel;
+import com.amey.sports_android.service.model.StandingModel;
+import com.amey.sports_android.service.model.TeamModel;
 import com.amey.sports_android.utilities.AppConstant;
 import com.amey.sports_android.view.callback.ResultInterface;
-import com.amey.sports_android.view.ui.MainActivity;
-import com.amey.sports_android.view.ui.SplashActivity;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class SportsApi {
         return sportsApi;
     }
 
-    public LiveData<List<Sports>> getAllTeams(){
+    public LiveData<List<Sports>> getAllSports(final ResultInterface<Sports> resultInterface){
         final MutableLiveData<List<Sports>> data = new MutableLiveData<>();
 
         GameService gameService = RetrofitClientInstance.newInstance().create(GameService.class);
@@ -41,8 +42,9 @@ public class SportsApi {
             public void onResponse(Call<SportsModel> call, Response<SportsModel> response) {
                 if(response != null){
                     SportsModel sportsModel =response.body();
-                    if(sportsModel.sports != null){
+                    if(sportsModel.sports != null && resultInterface != null){
                         data.setValue(sportsModel.sports);
+                        resultInterface.onSuccess(sportsModel.sports);
                     }
 
                 }
@@ -52,12 +54,17 @@ public class SportsApi {
             public void onFailure(Call<SportsModel> call, Throwable t) {
                     data.setValue(null);
 
+                if(resultInterface != null){
+                    resultInterface.onError();
+                }
+
+
             }
         });
         return data;
     }
 
-    public LiveData<List<Leagues>> getAllLeague(){
+    public LiveData<List<Leagues>> getAllLeague(final ResultInterface<Leagues> resultInterface){
         final MutableLiveData<List<Leagues>> data = new MutableLiveData<>();
 
         GameService gameService = RetrofitClientInstance.newInstance().create(GameService.class);
@@ -67,8 +74,9 @@ public class SportsApi {
             public void onResponse(Call<LeaguesModel> call, Response<LeaguesModel> response) {
                 if(response != null){
                     LeaguesModel leaguesModel =response.body();
-                    if(leaguesModel.leagues != null){
+                    if(leaguesModel.leagues != null && resultInterface != null){
                         data.setValue(leaguesModel.leagues);
+                        resultInterface.onSuccess(leaguesModel.leagues);
 
                     }
                    /* if(leaguesModel.sports != null){
@@ -81,11 +89,180 @@ public class SportsApi {
             @Override
             public void onFailure(Call<LeaguesModel> call, Throwable t) {
                 data.setValue(null);
-
+                if(resultInterface != null){
+                    resultInterface.onError();
+                }
             }
         });
         return data;
     }
+
+    public LiveData<List<TeamModel.Team>> getAllTeams(final ResultInterface<TeamModel.Team> resultInterface, String leagueName){
+        final MutableLiveData<List<TeamModel.Team>> data = new MutableLiveData<>();
+
+        GameService gameService = RetrofitClientInstance.newInstance().create(GameService.class);
+        Call<TeamModel> listSport = gameService.getAllTeams(AppConstant.API_HOST_NAME+AppConstant.PATH_NAME+AppConstant.API_KEY+AppConstant.SEARCH_ALL_TEAMS,leagueName);
+        listSport.enqueue(new Callback<TeamModel>() {
+            @Override
+            public void onResponse(Call<TeamModel> call, Response<TeamModel> response) {
+                if(response != null){
+                    TeamModel teamModel =response.body();
+                    if(teamModel.teams != null){
+                        data.setValue(teamModel.teams);
+                        //resultInterface.onSuccess(teamModel.teams);
+
+                    }
+                   /* if(leaguesModel.sports != null){
+                        data.setValue(leaguesModel.sports);
+                    }*/
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TeamModel> call, Throwable t) {
+                data.setValue(null);
+                if(resultInterface != null){
+                    resultInterface.onError();
+                }
+            }
+        });
+        return data;
+    }
+
+    public LiveData<List<EventsModel.Events>> getUpcomingEvents(final ResultInterface<EventsModel.Events> resultInterface, String teamId){
+        final MutableLiveData<List<EventsModel.Events>> data = new MutableLiveData<>();
+
+        GameService gameService = RetrofitClientInstance.newInstance().create(GameService.class);
+        Call<EventsModel> listSport = gameService.getAllUpComingEvents(AppConstant.API_HOST_NAME+AppConstant.PATH_NAME+AppConstant.API_KEY+AppConstant.EVENTS_NEXT,teamId);
+        listSport.enqueue(new Callback<EventsModel>() {
+            @Override
+            public void onResponse(Call<EventsModel> call, Response<EventsModel> response) {
+                if(response != null){
+                    EventsModel eventsModel =response.body();
+                    if(eventsModel.events != null){
+                        data.setValue(eventsModel.events);
+                        //resultInterface.onSuccess(teamModel.teams);
+
+                    }
+                   /* if(leaguesModel.sports != null){
+                        data.setValue(leaguesModel.sports);
+                    }*/
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventsModel> call, Throwable t) {
+                data.setValue(null);
+                if(resultInterface != null){
+                    resultInterface.onError();
+                }
+            }
+        });
+        return data;
+    }
+
+    public LiveData<List<LastEventModel.Events>> getLastEvents(final ResultInterface<LastEventModel.Events> resultInterface, String teamId){
+        final MutableLiveData<List<LastEventModel.Events>> data = new MutableLiveData<>();
+
+        GameService gameService = RetrofitClientInstance.newInstance().create(GameService.class);
+        Call<LastEventModel> listSport = gameService.getAllLastEvents(AppConstant.API_HOST_NAME+AppConstant.PATH_NAME+AppConstant.API_KEY+AppConstant.EVENTS_LAST,teamId);
+        listSport.enqueue(new Callback<LastEventModel>() {
+            @Override
+            public void onResponse(Call<LastEventModel> call, Response<LastEventModel> response) {
+                if(response != null){
+                    LastEventModel eventsModel =response.body();
+                    if(eventsModel.results != null){
+                        data.setValue(eventsModel.results);
+                        //resultInterface.onSuccess(teamModel.teams);
+
+                    }
+                   /* if(leaguesModel.sports != null){
+                        data.setValue(leaguesModel.sports);
+                    }*/
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LastEventModel> call, Throwable t) {
+                data.setValue(null);
+                if(resultInterface != null){
+                    resultInterface.onError();
+                }
+            }
+        });
+        return data;
+    }
+
+    public LiveData<List<SeasonModel.Season>> getAllSeasons(final ResultInterface<SeasonModel.Season> resultInterface, String leagueId){
+        final MutableLiveData<List<SeasonModel.Season>> data = new MutableLiveData<>();
+
+        GameService gameService = RetrofitClientInstance.newInstance().create(GameService.class);
+        Call<SeasonModel> listSport = gameService.getAllSeasons(AppConstant.API_HOST_NAME+AppConstant.PATH_NAME+AppConstant.API_KEY+AppConstant.SEARCH_ALL_SESSION,leagueId);
+        listSport.enqueue(new Callback<SeasonModel>() {
+            @Override
+            public void onResponse(Call<SeasonModel> call, Response<SeasonModel> response) {
+                if(response != null){
+                    SeasonModel seasonModel =response.body();
+                    if(seasonModel.seasons != null){
+                        data.setValue(seasonModel.seasons);
+                        //resultInterface.onSuccess(teamModel.teams);
+
+                    }
+                   /* if(leaguesModel.sports != null){
+                        data.setValue(leaguesModel.sports);
+                    }*/
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SeasonModel> call, Throwable t) {
+                data.setValue(null);
+                if(resultInterface != null){
+                    resultInterface.onError();
+                }
+            }
+        });
+        return data;
+    }
+
+    public LiveData<List<StandingModel.Standing>> getAllStanding(final ResultInterface<StandingModel.Standing> resultInterface, String leagueId, String seasonId){
+        final MutableLiveData<List<StandingModel.Standing>> data = new MutableLiveData<>();
+
+        GameService gameService = RetrofitClientInstance.newInstance().create(GameService.class);
+        Call<StandingModel> listSport = gameService.getAllStanding(AppConstant.API_HOST_NAME+AppConstant.PATH_NAME+AppConstant.API_KEY+AppConstant.LOOKUP_ALL_STANDING,leagueId, seasonId);
+        listSport.enqueue(new Callback<StandingModel>() {
+            @Override
+            public void onResponse(Call<StandingModel> call, Response<StandingModel> response) {
+                if(response != null){
+                    StandingModel standingModel =response.body();
+                    if(standingModel.table != null){
+                        data.setValue(standingModel.table);
+                        //resultInterface.onSuccess(teamModel.teams);
+
+                    }
+                   /* if(leaguesModel.sports != null){
+                        data.setValue(leaguesModel.sports);
+                    }*/
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StandingModel> call, Throwable t) {
+                data.setValue(null);
+                if(resultInterface != null){
+                    resultInterface.onError();
+                }
+            }
+        });
+        return data;
+    }
+
+
 
 
 }

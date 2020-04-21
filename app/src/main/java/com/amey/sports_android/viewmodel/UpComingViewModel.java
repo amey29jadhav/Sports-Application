@@ -5,22 +5,19 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.amey.sports_android.service.model.EventsModel;
 import com.amey.sports_android.service.model.TeamModel;
 import com.amey.sports_android.service.repository.SportsApi;
 
 import java.util.List;
 
-public class TeamViewModel extends AndroidViewModel {
-
-    public TeamViewModel(@NonNull Application application) {
+public class UpComingViewModel extends AndroidViewModel {
+    public UpComingViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public LiveData<List<TeamModel.Team>> getTeamListObservable(SportsApi sportsApi, String leagueName){
-        return sportsApi.getAllTeams(null, leagueName);
+    public LiveData<List<EventsModel.Events>> getEventsListObservable(SportsApi sportsApi, String teamId){
+        return sportsApi.getUpcomingEvents(null, teamId);
     }
-
-    // TODO: Implement the ViewModel
 }

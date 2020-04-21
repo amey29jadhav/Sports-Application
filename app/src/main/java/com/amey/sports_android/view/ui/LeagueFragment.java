@@ -23,6 +23,7 @@ import com.amey.sports_android.service.model.Sports;
 import com.amey.sports_android.service.repository.SportsApi;
 import com.amey.sports_android.view.adapter.LeagueAdapter;
 import com.amey.sports_android.view.adapter.SportsAdapter;
+import com.amey.sports_android.view.callback.ClickCallback;
 import com.amey.sports_android.viewmodel.LeagueViewModel;
 import com.amey.sports_android.viewmodel.SportsViewModel;
 
@@ -40,6 +41,8 @@ public class LeagueFragment extends Fragment {
     LeagueAdapter leagueAdapter;
     private String sportname;
     List<Leagues> sortedList = new ArrayList<>();
+    ClickCallback clickCallback;
+
 
 
     public static LeagueFragment newInstance() {
@@ -64,7 +67,8 @@ public class LeagueFragment extends Fragment {
         leagueRecyclerView = (RecyclerView) view.findViewById(R.id.leagueRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
         leagueRecyclerView.setLayoutManager(linearLayoutManager);
-        leagueAdapter = new LeagueAdapter();
+        leagueAdapter = new LeagueAdapter(this.context,clickCallback);
+        loadData();
         leagueRecyclerView.setAdapter(leagueAdapter);
         return view;
     }
@@ -73,7 +77,7 @@ public class LeagueFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(LeagueViewModel.class);
-        observeViewModel(mViewModel);
+        //observeViewModel(mViewModel);
         // TODO: Use the ViewModel
     }
 
@@ -101,6 +105,29 @@ public class LeagueFragment extends Fragment {
         });
 
     }
+
+    private void loadData(){
+        if(sortedList.size() > 0)
+            sortedList.clear();
+
+        sortedList.addAll(MainActivity.lstleagues);
+        //binding.setIsLoading(false);
+        Iterator<Leagues> iterator = sortedList.iterator();
+        while(iterator.hasNext()){
+            Leagues currentLeague = (Leagues)iterator.next();
+            if(!currentLeague.strSport.equalsIgnoreCase(sportname)){
+                iterator.remove();
+
+            }
+        }
+        leagueAdapter.setLeaguesList(sortedList);
+    }
+
+    public void setClickCallback(ClickCallback clickCallback) {
+        this.clickCallback = clickCallback;
+
+    }
+
 
 
 }

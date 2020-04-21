@@ -1,17 +1,22 @@
 package com.amey.sports_android.view.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.Leagues;
 import com.amey.sports_android.service.model.Sports;
+import com.amey.sports_android.utilities.Prefs;
+import com.amey.sports_android.view.callback.ClickCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,6 +24,13 @@ import java.util.List;
 public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueViewHolder> {
 
     List<Leagues> lstLeagues;
+    ClickCallback clickCallback;
+    Context context;
+
+    public LeagueAdapter(Context context, ClickCallback callback){
+        this.context = context;
+        this.clickCallback = callback;
+    }
 
     @NonNull
     @Override
@@ -52,17 +64,32 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
 
         TextView nameTextView;
         AppCompatImageView gamelogo;
+        RelativeLayout headerContainer;
 
         public LeagueViewHolder(@NonNull View itemView) {
             super(itemView);
+            headerContainer = itemView.findViewById(R.id.headerContainer);
+            headerContainer.setBackgroundColor(context.getResources().getColor( R.color.white));
+
             nameTextView = itemView.findViewById(R.id.name);
             gamelogo = itemView.findViewById(R.id.gamelogo);
+            gamelogo.setVisibility(View.INVISIBLE);
         }
 
         public void bind(int position){
-            Leagues leagues = getItem(position);
+            final Leagues leagues = getItem(position);
             nameTextView.setText(leagues.strLeague);
             //Picasso.get().load(leagues.).into(gamelogo);
+            headerContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Prefs.saveLeagueId(context,leagues.idLeague);
+                    if(clickCallback != null){
+                        clickCallback.onClick(leagues.strLeague);
+                    }
+                }
+            });
+
         }
 
     }

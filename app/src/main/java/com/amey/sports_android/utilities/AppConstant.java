@@ -18,6 +18,22 @@ public class AppConstant {
     public static final String SEARCH_ALL_SESSION ="search_all_seasons.php";
     public static final String SEARCH_ALL_TEAMS ="search_all_teams.php";
 
+    public static final String LOOKUP_ALL_STANDING ="lookuptable.php";
+
+
+    public static final String EVENTS_NEXT ="eventsnext.php";
+    public static final String EVENTS_LAST ="eventslast.php";
+
+
+    //Headers
+    public static final String EVENTS ="Events";
+    public static final String SEASONS ="Seasons";
+
+
+
+
+
+
 
 
 

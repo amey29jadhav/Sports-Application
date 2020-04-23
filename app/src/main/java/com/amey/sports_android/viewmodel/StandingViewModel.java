@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.amey.sports_android.service.model.EventsModel;
+import com.amey.sports_android.service.model.Standing;
 import com.amey.sports_android.service.model.StandingModel;
 import com.amey.sports_android.service.repository.SportsApi;
 
@@ -18,7 +19,7 @@ public class StandingViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<List<StandingModel.Standing>> getStandingsListObservable(SportsApi sportsApi, String leagueId, String seasonId){
+    public LiveData<List<Standing>> getStandingsListObservable(SportsApi sportsApi, String leagueId, String seasonId){
         return sportsApi.getAllStanding(null, leagueId,seasonId);
     }
     // TODO: Implement the ViewModel

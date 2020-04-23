@@ -1,6 +1,7 @@
 package com.amey.sports_android.view.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.EventsModel;
 import com.amey.sports_android.service.model.Leagues;
 import com.amey.sports_android.service.model.TeamModel;
+import com.amey.sports_android.utilities.TypeFaceHelper;
 import com.amey.sports_android.view.callback.ClickCallback;
 
 import org.w3c.dom.Text;
@@ -27,9 +29,13 @@ public class UpComingEventsAdapter extends RecyclerView.Adapter<UpComingEventsAd
     public Context context;
     List<EventsModel.Events> eventsList;
     ClickCallback clickCallback;
+    Typeface robotoRegular;
+
     public UpComingEventsAdapter(Context context, ClickCallback callback){
         this.context = context;
         this.clickCallback = callback;
+        robotoRegular = TypeFaceHelper.getInstance(context).getStyleTypeFace(TypeFaceHelper.MEDIUM);
+
     }
 
     @NonNull
@@ -68,7 +74,9 @@ public class UpComingEventsAdapter extends RecyclerView.Adapter<UpComingEventsAd
             super(itemView);
             cardView = itemView.findViewById(R.id.cardview);
             eventNameTextview = itemView.findViewById(R.id.eventNameTextview);
+            eventNameTextview.setTypeface(robotoRegular);
             eventdateTextview = itemView.findViewById(R.id.eventdateTextview);
+            eventdateTextview.setTypeface(robotoRegular);
 
         }
 

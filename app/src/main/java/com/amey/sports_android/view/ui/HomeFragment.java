@@ -1,9 +1,11 @@
 package com.amey.sports_android.view.ui;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -47,6 +49,7 @@ public class HomeFragment extends Fragment {
     private String teamId;
     ClickCallback clickCallback;
     LastGameAdapter lastGameAdapter;
+    AppCompatTextView nogamesTextview, nolastgamesTextview;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -67,17 +70,22 @@ public class HomeFragment extends Fragment {
         teamId = getArguments().getString("teamId");
 
         view = inflater.inflate(R.layout.home_fragment, container, false);
+        nogamesTextview = view.findViewById(R.id.nogamesTextview);
+        nogamesTextview.setVisibility(View.GONE);
+
+        nolastgamesTextview = view.findViewById(R.id.nolastgamesTextview);
+        nolastgamesTextview.setVisibility(View.GONE);
         upcomingGameRecyclerView = (RecyclerView) view.findViewById(R.id.upcomingGameRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         upcomingGameRecyclerView.setLayoutManager(linearLayoutManager);
-        upcomingGameRecyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.colorAccent),0.5f,context));
+        upcomingGameRecyclerView.addItemDecoration(new CustomItemDecoration(5));
 
         upComingEventsAdapter = new UpComingEventsAdapter(this.context,clickCallback);
         upcomingGameRecyclerView.setAdapter(upComingEventsAdapter);
 
         pastGameRecyclerView = (RecyclerView) view.findViewById(R.id.pastGameRecyclerView);
         //pastGameRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        pastGameRecyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.colorAccent),0.5f,context));
+        pastGameRecyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.separator_color),0.5f,context));
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         pastGameRecyclerView.setLayoutManager(linearLayoutManager1);
         lastGameAdapter = new LastGameAdapter(this.context,clickCallback);
@@ -103,10 +111,15 @@ public class HomeFragment extends Fragment {
         mViewModel.getEventsListObservable(SportsApi.newInstance(),teamId).observe(getViewLifecycleOwner(), new Observer<List<EventsModel.Events>>() {
             @Override
             public void onChanged(List<EventsModel.Events> events) {
-                if (events != null) {
+                if (events != null && events.size()> 0) {
+                    upcomingGameRecyclerView.setVisibility(View.VISIBLE);
+                    nogamesTextview.setVisibility(View.GONE);
                     upComingEventsAdapter.setEventsList(events);
                     //sportsAdapter.setSportList(sports);
 
+                }else{
+                    upcomingGameRecyclerView.setVisibility(View.GONE);
+                    nogamesTextview.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -116,10 +129,15 @@ public class HomeFragment extends Fragment {
         mViewModel.getLastEventsListObservable(SportsApi.newInstance(),teamId).observe(getViewLifecycleOwner(), new Observer<List<LastEventModel.Events>>() {
             @Override
             public void onChanged(List<LastEventModel.Events> events) {
-                if (events != null) {
+                if (events != null && events.size()> 0) {
+                    pastGameRecyclerView.setVisibility(View.VISIBLE);
+                    nolastgamesTextview.setVisibility(View.GONE);
                     lastGameAdapter.setEventsList(events);
                     //sportsAdapter.setSportList(sports);
 
+                }else{
+                    nolastgamesTextview.setVisibility(View.VISIBLE);
+                    pastGameRecyclerView.setVisibility(View.GONE);
                 }
 
             }
@@ -129,6 +147,26 @@ public class HomeFragment extends Fragment {
     public void setClickCallback(ClickCallback clickCallback) {
         this.clickCallback = clickCallback;
 
+    }
+
+    public class CustomItemDecoration extends RecyclerView.ItemDecoration{
+        int space;
+        public CustomItemDecoration(int space){
+            this.space = space;
+
+        }
+
+        @Override
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+
+            outRect.left = space;
+            outRect.right = space;
+            outRect.bottom = space;
+            outRect.top = space;
+
+
+        }
     }
 
 }

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.Sports;
 import com.amey.sports_android.utilities.PicassoCircleTransformation;
+import com.amey.sports_android.utilities.TypeFaceHelper;
 import com.amey.sports_android.view.ui.SportsFragment;
 import com.squareup.picasso.Picasso;
 
@@ -37,12 +38,14 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportsView
     SportsFragment.ClickCallback clickCallback;
     Context context;
     private Typeface fontAwesomeFont;
+    Typeface robotoRegular;
 
 
     public SportsAdapter(Context context, SportsFragment.ClickCallback clickCallback){
         this.context = context;
         this.clickCallback = clickCallback;
         fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
+        robotoRegular = TypeFaceHelper.getInstance(context).getStyleTypeFace(TypeFaceHelper.MEDIUM);
 
     }
     public void setSportList(final List<Sports> sports) {
@@ -157,6 +160,7 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportsView
             headerContainer = itemView.findViewById(R.id.headerContainer);
             headerContainer.setBackgroundColor(context.getResources().getColor( R.color.white));
             nameTextView = itemView.findViewById(R.id.name);
+            nameTextView.setTypeface(robotoRegular);
             arrowTextview = itemView.findViewById(R.id.arrowTextview);
             arrowTextview.setTypeface(fontAwesomeFont);
             gamelogo = itemView.findViewById(R.id.gamelogo);

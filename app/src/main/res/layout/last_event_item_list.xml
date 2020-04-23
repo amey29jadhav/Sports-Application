@@ -3,21 +3,30 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp">
-        <TextView
-            android:id="@+id/eventNameTextview"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gameStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/black"></androidx.appcompat.widget.AppCompatTextView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/homeTeamTextview"
             android:layout_centerInParent="true"
             android:layout_marginTop="4dp"
+            android:textSize="14sp"
             android:layout_marginBottom="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"/>
-        <TextView
-            android:id="@+id/eventdateTextview"
+            android:textColor="@color/black"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/awayTeamTextview"
             android:layout_below="@+id/eventNameTextview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="4dp"
+            android:textSize="14sp"
             android:layout_marginBottom="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"/>
+            android:textColor="@color/black"/>
 </LinearLayout>

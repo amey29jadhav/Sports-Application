@@ -1,10 +1,12 @@
 package com.amey.sports_android.view.ui;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,11 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.Leagues;
 import com.amey.sports_android.service.model.Sports;
 import com.amey.sports_android.service.repository.SportsApi;
+import com.amey.sports_android.utilities.SpacesItemDecoration;
 import com.amey.sports_android.view.adapter.LeagueAdapter;
 import com.amey.sports_android.view.adapter.SportsAdapter;
 import com.amey.sports_android.view.callback.ClickCallback;
@@ -42,6 +46,8 @@ public class LeagueFragment extends Fragment {
     private String sportname;
     List<Leagues> sortedList = new ArrayList<>();
     ClickCallback clickCallback;
+    SearchView searchview;
+    MainActivity mainActivity;
 
 
 
@@ -53,6 +59,7 @@ public class LeagueFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+        this.mainActivity = (MainActivity) context;
     }
 
 
@@ -62,14 +69,40 @@ public class LeagueFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         sportname = getArguments().getString("sportname");
+        mainActivity.headertextview.setText(getResources().getString(R.string.leagues));
 
         view = inflater.inflate(R.layout.league_fragment, container, false);
-        leagueRecyclerView = (RecyclerView) view.findViewById(R.id.leagueRecyclerView);
+        leagueRecyclerView = (RecyclerView) view.findViewById(R.id.sportsRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
         leagueRecyclerView.setLayoutManager(linearLayoutManager);
+        leagueRecyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.separator_color),0.5f,context));
         leagueAdapter = new LeagueAdapter(this.context,clickCallback);
         loadData();
         leagueRecyclerView.setAdapter(leagueAdapter);
+
+        searchview = view.findViewById(R.id.searchview);
+        searchview.setIconified(false);
+        searchview.clearFocus();
+        searchview.setQueryHint("Search Leagues");
+        EditText txtSearch = ((EditText)searchview.findViewById(androidx.appcompat.R.id.search_src_text));
+        txtSearch.setHintTextColor(Color.WHITE);
+        txtSearch.setTextColor(Color.BLACK);
+
+        searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                leagueAdapter.getFilter().filter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                leagueAdapter.getFilter().filter(newText);
+
+                return true;
+            }
+        });
+
         return view;
     }
 

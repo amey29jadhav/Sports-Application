@@ -3,23 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/headerContainer"
-    android:padding="10dp">
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:textColor="@color/black"
-        android:layout_toRightOf="@+id/gamelogo"
-        android:textStyle="bold" />
+    >
+    <include layout="@layout/sports_list_item"></include>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/arrowTextview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/black"
-        android:textSize="15dp"
-        android:layout_centerVertical="true"/>
 </RelativeLayout>

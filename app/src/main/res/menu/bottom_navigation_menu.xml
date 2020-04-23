@@ -3,7 +3,7 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/home"
-        android:title="Home" />
+        android:title="Events" />
 
     <item
         android:id="@+id/navigation_sms"
@@ -12,6 +12,6 @@
 
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/home"
-        android:title="" />
+        android:icon="@drawable/membership"
+        android:title="Membership" />
 </menu>

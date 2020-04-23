@@ -1,18 +1,21 @@
 package com.amey.sports_android.view.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.EventsModel;
 import com.amey.sports_android.service.model.LastEventModel;
+import com.amey.sports_android.utilities.TypeFaceHelper;
 import com.amey.sports_android.view.callback.ClickCallback;
 
 import java.util.List;
@@ -21,9 +24,14 @@ public class LastGameAdapter extends RecyclerView.Adapter<LastGameAdapter.Events
     public Context context;
     List<LastEventModel.Events> eventsList;
     ClickCallback clickCallback;
+    Typeface robotoRegular;
+
+
     public LastGameAdapter(Context context, ClickCallback callback){
         this.context = context;
         this.clickCallback = callback;
+        robotoRegular = TypeFaceHelper.getInstance(context).getStyleTypeFace(TypeFaceHelper.MEDIUM);
+
     }
 
     @NonNull
@@ -57,19 +65,33 @@ public class LastGameAdapter extends RecyclerView.Adapter<LastGameAdapter.Events
     public class EventsViewHolder extends RecyclerView.ViewHolder{
 
         CardView cardView;
-        TextView eventNameTextview, eventdateTextview;
+        AppCompatTextView homeTeamTextview, awayTeamTextview, gameStatus;
         public EventsViewHolder(@NonNull View itemView) {
             super(itemView);
             //cardView = itemView.findViewById(R.id.cardview);
-            eventNameTextview = itemView.findViewById(R.id.eventNameTextview);
-            eventdateTextview = itemView.findViewById(R.id.eventdateTextview);
+            gameStatus = itemView.findViewById(R.id.gameStatus);
+            homeTeamTextview = itemView.findViewById(R.id.homeTeamTextview);
+            awayTeamTextview = itemView.findViewById(R.id.awayTeamTextview);
 
+            gameStatus.setTypeface(robotoRegular);
+            homeTeamTextview.setTypeface(robotoRegular);
+            awayTeamTextview.setTypeface(robotoRegular);
         }
 
         void bind(int position){
             LastEventModel.Events events = getItem(position);
-            eventNameTextview.setText(events.strEvent);
-            eventdateTextview.setText(events.dateEvent);
+            homeTeamTextview.setText(events.strHomeTeam);
+            awayTeamTextview.setText(events.strAwayTeam);
+            if(events.strPostponed.isEmpty()){
+                gameStatus.setVisibility(View.GONE);
+            }else {
+                gameStatus.setVisibility(View.VISIBLE);
+            }
+            if(events.strPostponed.equalsIgnoreCase("yes")) {
+                gameStatus.setText("Interrupted");
+            }else {
+             gameStatus.setText(events.strPostponed);
+            }
 
 
         }

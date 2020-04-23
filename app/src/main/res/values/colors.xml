@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryVariant">#3700B3</color>
+
+    <color name="colorPrimary">#B7D660</color>
+    <color name="colorPrimaryVariant">#b7d660</color>
     <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorSecondary">#03DAC6</color>
     <color name="colorSecondaryVariant">#018786</color>
     <color name="colorOnSecondary">#000000</color>
+    <color name="app_theme_color">#5B2B82</color>
+    <color name="green">#008000</color>
+    <color name="dark_grey">#63717A</color>
 
 
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="arrowcolor">#8A959B</color>
+
+
+
+
+
+    <color name="colorPrimaryDark">#4e6119</color>
     <color name="colorAccent">#D81B60</color>
     <color name="gray">#DCDCDC</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="separator_color">#DDDFE0</color>
 </resources>

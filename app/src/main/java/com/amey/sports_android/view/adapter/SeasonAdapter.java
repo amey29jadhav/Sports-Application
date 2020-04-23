@@ -9,12 +9,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.SeasonModel;
 import com.amey.sports_android.service.model.TeamModel;
+import com.amey.sports_android.utilities.TypeFaceHelper;
 import com.amey.sports_android.view.callback.ClickCallback;
 import com.amey.sports_android.view.ui.SportsFragment;
 
@@ -29,11 +31,15 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.SeasonView
     Context context;
     ClickCallback<String> clickCallback;
     Typeface fontAwesomeFont;
+    Typeface robotoRegular;
+
 
     public SeasonAdapter(Context context, ClickCallback clickCallback){
         this.context = context;
         this.clickCallback = clickCallback;
         fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
+        robotoRegular = TypeFaceHelper.getInstance(context).getStyleTypeFace(TypeFaceHelper.MEDIUM);
+
     }
 
     @NonNull
@@ -66,11 +72,15 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.SeasonView
     public class SeasonViewHolder extends RecyclerView.ViewHolder{
 
         AppCompatTextView name, arrowTextview;
+        AppCompatImageView gamelogo;
         RelativeLayout headerContainer;
         public SeasonViewHolder(@NonNull View itemView) {
             super(itemView);
             headerContainer = itemView.findViewById(R.id.headerContainer);
+            gamelogo = itemView.findViewById(R.id.gamelogo);
+            gamelogo.setVisibility(View.GONE);
             name = itemView.findViewById(R.id.name);
+            name.setTypeface(robotoRegular);
             arrowTextview = itemView.findViewById(R.id.arrowTextview);
             arrowTextview.setTypeface(fontAwesomeFont);
             arrowTextview.setText(context.getResources().getString(R.string.fa_angle_right));

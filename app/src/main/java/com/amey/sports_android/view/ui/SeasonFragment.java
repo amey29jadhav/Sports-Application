@@ -63,7 +63,7 @@ public class SeasonFragment extends Fragment {
         seasonRecyclerView = (RecyclerView) view.findViewById(R.id.seasonRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
         seasonRecyclerView.setLayoutManager(linearLayoutManager);
-        seasonRecyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.colorAccent),0.5f,context));
+        seasonRecyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.separator_color),0.5f,context));
         seasonAdapter = new SeasonAdapter(this.context,clickCallback);
         seasonRecyclerView.setAdapter(seasonAdapter);
 

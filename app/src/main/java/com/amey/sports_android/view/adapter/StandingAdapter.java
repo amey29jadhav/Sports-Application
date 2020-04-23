@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.Sports;
+import com.amey.sports_android.service.model.Standing;
 import com.amey.sports_android.service.model.StandingModel;
+import com.amey.sports_android.utilities.TypeFaceHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,17 +25,20 @@ import java.util.List;
 public class StandingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private List<StandingModel.Standing> standingList;
-    private HashMap<String, List<StandingModel.Standing>> expandableListDetail;
+    private List<Standing> standingList;
+    private HashMap<String, List<Standing>> expandableListDetail;
     private static int TYPE_HEADER = 1;
     private static int TYPE_SPORTS = 2;
+    Typeface robotoRegular;
+
 
     public StandingAdapter(Context context ){
         this.context = context;
 
+
     }
 
-    public void setStandingList(final List<StandingModel.Standing> lstStanding){
+    public void setStandingList(final List<Standing> lstStanding){
      this.standingList = lstStanding;
      notifyDataSetChanged();
     }
@@ -69,7 +75,7 @@ public class StandingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    private StandingModel.Standing getItem(int position) {
+    private Standing getItem(int position) {
         return standingList.get(position);
     }
 
@@ -81,20 +87,32 @@ public class StandingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class StandingViewHolder extends RecyclerView.ViewHolder{
         AppCompatTextView header, played, win, draw, loss, total;
+        RelativeLayout parentcontainer;
         public StandingViewHolder(@NonNull View itemView) {
             super(itemView);
             header= itemView.findViewById(R.id.header);
+            header.setTypeface(robotoRegular);
+
             played = itemView.findViewById(R.id.played);
+            played.setTypeface(robotoRegular);
             win = itemView.findViewById(R.id.win);
+            win.setTypeface(robotoRegular);
             draw = itemView.findViewById(R.id.draw);
+            draw.setTypeface(robotoRegular);
             loss = itemView.findViewById(R.id.loss);
+            loss.setTypeface(robotoRegular);
             total = itemView.findViewById(R.id.total);
+            total.setTypeface(robotoRegular);
         }
 
         void bind(int position){
-            StandingModel.Standing currentStanding = getItem(position);
+            Standing currentStanding = getItem(position);
             if(currentStanding != null)
-            header.setText(currentStanding.name);
+                if(!currentStanding.name.isEmpty()) {
+                    header.setText(currentStanding.name);
+                }else{
+                    header.setText("-");
+                }
             played.setText(Integer.toString(currentStanding.played));
             win.setText(Integer.toString(currentStanding.win));
             draw.setText(Integer.toString(currentStanding.draw));
@@ -108,11 +126,14 @@ public class StandingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder{
         AppCompatTextView header, played, win, draw, loss, total;
+        RelativeLayout parentcontainer;
 
         public HeaderViewHolder(@NonNull View itemView) {
 
             super(itemView);
 
+            parentcontainer = itemView.findViewById(R.id.parentcontainer);
+            parentcontainer.setBackgroundColor(context.getResources().getColor(R.color.gray));
             header= itemView.findViewById(R.id.header);
             played = itemView.findViewById(R.id.played);
             win = itemView.findViewById(R.id.win);
@@ -120,12 +141,27 @@ public class StandingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             loss = itemView.findViewById(R.id.loss);
             total = itemView.findViewById(R.id.total);
 
+            header.setTypeface(robotoRegular);
+            played.setTypeface(robotoRegular);
+            win.setTypeface(robotoRegular);
+            draw.setTypeface(robotoRegular);
+            loss.setTypeface(robotoRegular);
+            total.setTypeface(robotoRegular);
+
             header.setText("Name");
             played.setText("Played");
             win.setText("Win");
             draw.setText("Draw");
             loss.setText("Loss");
             total.setText("Total");
+
+            header.setTextColor(context.getResources().getColor(R.color.dark_grey));
+            played.setTextColor(context.getResources().getColor(R.color.dark_grey));
+            win.setTextColor(context.getResources().getColor(R.color.dark_grey));
+            draw.setTextColor(context.getResources().getColor(R.color.dark_grey));
+            loss.setTextColor(context.getResources().getColor(R.color.dark_grey));
+            total.setTextColor(context.getResources().getColor(R.color.dark_grey));
+
         }
 
     }

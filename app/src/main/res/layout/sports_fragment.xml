@@ -6,15 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".view.ui.SportsFragment">
-
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchview"
-        android:background="@drawable/bg_white_rounded"
-        android:layout_width="match_parent"
-        app:queryHint="Search Sport"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content">
-    </androidx.appcompat.widget.SearchView>
+    <include layout="@layout/search_layout"></include>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/searchview"

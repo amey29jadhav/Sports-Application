@@ -28,6 +28,8 @@ public class AppConstant {
     //Headers
     public static final String EVENTS ="Events";
     public static final String SEASONS ="Seasons";
+    public static final String MEMBERSHIP ="Membership";
+
 
 
 

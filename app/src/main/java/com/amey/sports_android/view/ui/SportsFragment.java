@@ -1,10 +1,12 @@
 package com.amey.sports_android.view.ui;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.Sports;
@@ -40,6 +43,8 @@ public class SportsFragment extends Fragment {
     RecyclerView recyclerView;
     ClickCallback clickCallback;
     SearchView searchview;
+    MainActivity mainActivity;
+
 
 
     public static SportsFragment newInstance() {
@@ -50,6 +55,7 @@ public class SportsFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+        mainActivity = (MainActivity) context;
     }
 
     @Override
@@ -57,10 +63,13 @@ public class SportsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.sports_fragment, container, false);
+
+        mainActivity.toolbar.setVisibility(View.VISIBLE);
+        mainActivity.headertextview.setText(getResources().getString(R.string.sports));
         recyclerView = (RecyclerView) view.findViewById(R.id.sportsRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.colorAccent),0.5f,context));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.separator_color),0.5f,context));
         sportsAdapter = new SportsAdapter(this.context,this.clickCallback);
         recyclerView.setAdapter(sportsAdapter);
         sportsAdapter.setSportList(MainActivity.lstsports);
@@ -69,6 +78,10 @@ public class SportsFragment extends Fragment {
         searchview = view.findViewById(R.id.searchview);
         searchview.setIconified(false);
         searchview.clearFocus();
+        EditText txtSearch = ((EditText)searchview.findViewById(androidx.appcompat.R.id.search_src_text));
+        txtSearch.setHintTextColor(Color.WHITE);
+        txtSearch.setTextColor(Color.BLACK);
+
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

@@ -1,6 +1,7 @@
 package com.amey.sports_android.view.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.amey.sports_android.service.model.Sports;
 import com.amey.sports_android.service.model.TeamModel;
 import com.amey.sports_android.utilities.PicassoCircleTransformation;
 import com.amey.sports_android.utilities.Prefs;
+import com.amey.sports_android.utilities.TypeFaceHelper;
 import com.amey.sports_android.view.callback.ClickCallback;
 import com.amey.sports_android.view.ui.SportsFragment;
 import com.amey.sports_android.view.ui.TeamFragment;
@@ -33,10 +35,15 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
     List<TeamModel.Team> filtertTeamList;
     ClickCallback<String> clickCallback;
     Context context;
+    Typeface robotoRegular;
+
+
 
     public TeamAdapter(Context context, ClickCallback<String> clickCallback){
         this.context = context;
         this.clickCallback = clickCallback;
+        robotoRegular = TypeFaceHelper.getInstance(context).getStyleTypeFace(TypeFaceHelper.MEDIUM);
+
     }
     public void setTeamList(List<TeamModel.Team> teamList){
         this.teamList = teamList;
@@ -98,7 +105,8 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
                 filtertTeamList = (ArrayList<TeamModel.Team>) filterResults.values;
                 notifyDataSetChanged();
             }
-        };    }
+        };
+    }
 
     public class TeamViewHolder extends RecyclerView.ViewHolder{
 
@@ -113,6 +121,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
 
 
             nameTextView = itemView.findViewById(R.id.name);
+            nameTextView.setTypeface(robotoRegular);
             gamelogo = itemView.findViewById(R.id.gamelogo);
         }
 

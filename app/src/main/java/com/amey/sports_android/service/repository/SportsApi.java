@@ -10,6 +10,7 @@ import com.amey.sports_android.service.model.LeaguesModel;
 import com.amey.sports_android.service.model.SeasonModel;
 import com.amey.sports_android.service.model.Sports;
 import com.amey.sports_android.service.model.SportsModel;
+import com.amey.sports_android.service.model.Standing;
 import com.amey.sports_android.service.model.StandingModel;
 import com.amey.sports_android.service.model.TeamModel;
 import com.amey.sports_android.utilities.AppConstant;
@@ -140,11 +141,9 @@ public class SportsApi {
             public void onResponse(Call<EventsModel> call, Response<EventsModel> response) {
                 if(response != null){
                     EventsModel eventsModel =response.body();
-                    if(eventsModel.events != null){
-                        data.setValue(eventsModel.events);
-                        //resultInterface.onSuccess(teamModel.teams);
+                    data.setValue(eventsModel.events);
 
-                    }
+
                    /* if(leaguesModel.sports != null){
                         data.setValue(leaguesModel.sports);
                     }*/
@@ -173,11 +172,8 @@ public class SportsApi {
             public void onResponse(Call<LastEventModel> call, Response<LastEventModel> response) {
                 if(response != null){
                     LastEventModel eventsModel =response.body();
-                    if(eventsModel.results != null){
-                        data.setValue(eventsModel.results);
-                        //resultInterface.onSuccess(teamModel.teams);
+                    data.setValue(eventsModel.results);
 
-                    }
                    /* if(leaguesModel.sports != null){
                         data.setValue(leaguesModel.sports);
                     }*/
@@ -229,8 +225,8 @@ public class SportsApi {
         return data;
     }
 
-    public LiveData<List<StandingModel.Standing>> getAllStanding(final ResultInterface<StandingModel.Standing> resultInterface, String leagueId, String seasonId){
-        final MutableLiveData<List<StandingModel.Standing>> data = new MutableLiveData<>();
+    public LiveData<List<Standing>> getAllStanding(final ResultInterface<Standing> resultInterface, String leagueId, String seasonId){
+        final MutableLiveData<List<Standing>> data = new MutableLiveData<>();
 
         GameService gameService = RetrofitClientInstance.newInstance().create(GameService.class);
         Call<StandingModel> listSport = gameService.getAllStanding(AppConstant.API_HOST_NAME+AppConstant.PATH_NAME+AppConstant.API_KEY+AppConstant.LOOKUP_ALL_STANDING,leagueId, seasonId);

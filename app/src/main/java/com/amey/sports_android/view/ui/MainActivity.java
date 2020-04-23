@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,12 +15,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.amey.sports_android.MyApplication;
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.Leagues;
 import com.amey.sports_android.service.model.Sports;
@@ -28,6 +32,7 @@ import com.amey.sports_android.utilities.Prefs;
 import com.amey.sports_android.view.adapter.SportsAdapter;
 import com.amey.sports_android.view.callback.ClickCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,9 +49,11 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment homeFragment;
     SeasonFragment seasonFragment;
     StandingFragment standingFragment;
+    MembershipFragment membershipFragment;
     BottomNavigationView bottom_navigation;
-    AppCompatTextView settingstextview, headertextview;
+    AppCompatTextView headertextview;
     private Typeface fontAwesomeFont;
+    AppCompatTextView resetButton;
 
     Toolbar toolbar;
     AlertDialog alertDialog;
@@ -55,6 +62,20 @@ public class MainActivity extends AppCompatActivity {
 
     public static List<Sports> lstsports = new ArrayList<>();
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.activityResumed();
+        openSportFragment();
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApplication.activityPaused();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +89,22 @@ public class MainActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimaryDark)); //status bar or the time bar at the top
+        }
+
         toolbar = findViewById(R.id.my_toolbar);
         toolbar.setVisibility(View.GONE);
 
         headertextview = findViewById(R.id.headertextview);
 
-        settingstextview = findViewById(R.id.settingstextview);
+        resetButton = findViewById(R.id.resetButton);
+        resetButton.setTypeface(fontAwesomeFont);
+        resetButton.setVisibility(View.GONE);
         //settingstextview.setTypeface(fontAwesomeFont);
 
         alertDialog = new AlertDialog.Builder(this,R.style.ThemeOverlay_MaterialComponents_Dialog_Alert)
-                .setTitle("Reset Preferences")
+                .setTitle("Clear Preferences")
                 .setMessage("Do you wish to continue")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -103,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        settingstextview.setOnClickListener(new View.OnClickListener() {
+        resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 alertDialog.show();
@@ -125,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.navigation_notifications:
-                        openHomeFragment(Prefs.getTeamId(MainActivity.this));
+                        openMembershipFragment();
                         return true;
 
 
@@ -148,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
 
         standingFragment = StandingFragment.newInstance();
 
+        membershipFragment = MembershipFragment.newInstance();
+
 
         teamFragment = TeamFragment.newInstance();
         teamFragment.setClickCallback(teamClickCallback);
@@ -162,12 +191,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openSportFragment() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, sportsFragment, SportsFragment.tag);
-        fragmentTransaction.commit();
+        if(MainActivity.lstleagues != null && MainActivity.lstsports != null) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, sportsFragment, SportsFragment.tag);
+            if (MyApplication.isActivityVisible()) {
+                fragmentTransaction.commit();
+
+            }
+        }
+
+
+
     }
 
     void openLeagueFragment(String sportname) {
+        toolbar.setVisibility(View.VISIBLE);
+        headertextview.setText(getResources().getString(R.string.leagues));
         Bundle bundle = new Bundle();
         bundle.putString("sportname", sportname);
         leagueFragment.setArguments(bundle);
@@ -178,6 +217,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void openTeamFragment(String leagueName) {
+        toolbar.setVisibility(View.VISIBLE);
+        headertextview.setText(getResources().getString(R.string.teams));
         Bundle bundle = new Bundle();
         bundle.putString("leagueName", leagueName);
         teamFragment.setArguments(bundle);
@@ -191,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
         bottom_navigation.setVisibility(View.VISIBLE);
         toolbar.setVisibility(View.VISIBLE);
         headertextview.setText(AppConstant.EVENTS);
+        resetButton.setVisibility(View.VISIBLE);
         Bundle bundle = new Bundle();
         bundle.putString("teamId", teamId);
         homeFragment.setArguments(bundle);
@@ -199,9 +241,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, homeFragment, HomeFragment.tag);
         fragmentTransaction.commit();
+        toolbar.setVisibility(View.VISIBLE);
     }
 
     void openSeasonFragment(String leaueId){
+        toolbar.setVisibility(View.VISIBLE);
         bottom_navigation.setVisibility(View.VISIBLE);
         toolbar.setVisibility(View.VISIBLE);
         headertextview.setText(AppConstant.SEASONS);
@@ -226,6 +270,18 @@ public class MainActivity extends AppCompatActivity {
         //fragmentManager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, standingFragment, StandingFragment.tag);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    void openMembershipFragment(){
+        toolbar.setVisibility(View.VISIBLE);
+        bottom_navigation.setVisibility(View.VISIBLE);
+        headertextview.setText(AppConstant.MEMBERSHIP);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        //fragmentManager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, membershipFragment, MembershipFragment.tag);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

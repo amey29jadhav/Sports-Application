@@ -20,6 +20,7 @@ import android.widget.ExpandableListView;
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.Leagues;
 import com.amey.sports_android.service.model.Sports;
+import com.amey.sports_android.service.model.Standing;
 import com.amey.sports_android.service.model.StandingModel;
 import com.amey.sports_android.service.repository.SportsApi;
 import com.amey.sports_android.utilities.Prefs;
@@ -65,7 +66,7 @@ public class StandingFragment extends Fragment {
         standingsRecyclerView = (RecyclerView) view.findViewById(R.id.standingsRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
         standingsRecyclerView.setLayoutManager(linearLayoutManager);
-        standingsRecyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.colorAccent),0.5f,context));
+        standingsRecyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.separator_color),0.5f,context));
         standingAdapter = new StandingAdapter(this.context);
         standingsRecyclerView.setAdapter(standingAdapter);
         return view;
@@ -79,11 +80,14 @@ public class StandingFragment extends Fragment {
         // TODO: Use the ViewModel
     }
     private void observeViewModel(StandingViewModel mViewModel) {
-        mViewModel.getStandingsListObservable(SportsApi.newInstance(), Prefs.getLeagueId(context),seasonId).observe(getViewLifecycleOwner(), new Observer<List<StandingModel.Standing>>() {
+
+        mViewModel.getStandingsListObservable(SportsApi.newInstance(), Prefs.getLeagueId(context),seasonId).observe(getViewLifecycleOwner(), new Observer<List<Standing>>() {
             @Override
-            public void onChanged(List<StandingModel.Standing> standings) {
+            public void onChanged(List<Standing> standings) {
 
                 if (standings != null) {
+                    Standing dummyStanding = new Standing();
+                    standings.add(0,dummyStanding);
                     standingAdapter.setStandingList(standings);
 
                 }

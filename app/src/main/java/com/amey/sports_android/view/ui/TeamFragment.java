@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.TeamModel;
 import com.amey.sports_android.service.repository.GameService;
 import com.amey.sports_android.service.repository.RetrofitClientInstance;
 import com.amey.sports_android.service.repository.SportsApi;
+import com.amey.sports_android.utilities.SpacesItemDecoration;
 import com.amey.sports_android.view.adapter.SportsAdapter;
 import com.amey.sports_android.view.adapter.TeamAdapter;
 import com.amey.sports_android.view.callback.ClickCallback;
@@ -44,6 +47,7 @@ public class TeamFragment extends Fragment {
     View view;
     private String leagueName;
     ClickCallback<String> clickCallback;
+    MainActivity mainActivity;
 
 
     public static TeamFragment newInstance() {
@@ -54,6 +58,7 @@ public class TeamFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+        this.mainActivity = (MainActivity) context;
     }
 
     @Override
@@ -62,11 +67,13 @@ public class TeamFragment extends Fragment {
 
         leagueName = getArguments().getString("leagueName");
 
+        mainActivity.headertextview.setText(getResources().getString(R.string.teams));
 
         view = inflater.inflate(R.layout.team_fragment, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.sportsRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new SpacesItemDecoration(5,getResources().getColor(R.color.separator_color),0.5f,context));
         teamAdapter = new TeamAdapter(this.context,clickCallback);
         recyclerView.setAdapter(teamAdapter);
 
@@ -74,6 +81,10 @@ public class TeamFragment extends Fragment {
         searchview.setIconified(false);
         searchview.clearFocus();
         searchview.setQueryHint("Search Team");
+        EditText txtSearch = ((EditText)searchview.findViewById(androidx.appcompat.R.id.search_src_text));
+        txtSearch.setHintTextColor(Color.WHITE);
+        txtSearch.setTextColor(Color.BLACK);
+
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

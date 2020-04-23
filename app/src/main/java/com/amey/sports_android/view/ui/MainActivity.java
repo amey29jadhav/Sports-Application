@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fontAwesomeFont = Typeface.createFromAsset(getAssets(), "FontAwesome.otf");
+        fontAwesomeFont = ResourcesCompat.getFont(this,R.font.fontawesome);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

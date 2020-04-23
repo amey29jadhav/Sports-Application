@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amey.sports_android.R;
@@ -33,7 +34,7 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.SeasonView
     public SeasonAdapter(Context context, ClickCallback clickCallback){
         this.context = context;
         this.clickCallback = clickCallback;
-        fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
+        fontAwesomeFont = ResourcesCompat.getFont(context,R.font.fontawesome);
     }
 
     @NonNull

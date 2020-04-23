@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +43,7 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportsView
     public SportsAdapter(Context context, SportsFragment.ClickCallback clickCallback){
         this.context = context;
         this.clickCallback = clickCallback;
-        fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
+        fontAwesomeFont = ResourcesCompat.getFont(context,R.font.fontawesome);
 
     }
     public void setSportList(final List<Sports> sports) {

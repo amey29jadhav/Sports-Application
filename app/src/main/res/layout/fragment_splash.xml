@@ -1,12 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@drawable/splashscreen"
-    android:layout_height="match_parent">
-    <androidx.core.widget.ContentLoadingProgressBar
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        ></androidx.core.widget.ContentLoadingProgressBar>
+        >
+
+        <ImageView
+            android:id="@+id/img_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ball_img"
+            />
+
+        <RelativeLayout
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/img_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/appName_label_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Sports"
+                android:textColor="@color/black"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/appName_label_one"
+                android:text="Buddy"
+                android:textColor="@color/black"
+                android:textSize="32sp"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.amey.sports_android.view.ui;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.IntentService;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;

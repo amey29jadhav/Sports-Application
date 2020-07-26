@@ -26,6 +26,7 @@ import com.amey.sports_android.service.model.EventsModel;
 import com.amey.sports_android.service.model.LastEventModel;
 import com.amey.sports_android.service.model.TeamModel;
 import com.amey.sports_android.service.repository.SportsApi;
+import com.amey.sports_android.utilities.AppConstant;
 import com.amey.sports_android.utilities.SpacesItemDecoration;
 import com.amey.sports_android.view.adapter.LastGameAdapter;
 import com.amey.sports_android.view.adapter.TeamAdapter;
@@ -50,11 +51,13 @@ public class HomeFragment extends Fragment {
     ClickCallback clickCallback;
     LastGameAdapter lastGameAdapter;
     AppCompatTextView nogamesTextview, nolastgamesTextview;
+    MainActivity mainActivity;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+        this.mainActivity = (MainActivity)context;
     }
 
 
@@ -68,6 +71,8 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         teamId = getArguments().getString("teamId");
+        mainActivity.headertextview.setText(AppConstant.EVENTS);
+
 
         view = inflater.inflate(R.layout.home_fragment, container, false);
         nogamesTextview = view.findViewById(R.id.nogamesTextview);

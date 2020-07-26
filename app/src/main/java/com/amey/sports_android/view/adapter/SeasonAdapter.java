@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amey.sports_android.R;
@@ -22,6 +23,7 @@ import com.amey.sports_android.view.ui.SportsFragment;
 
 import java.security.PublicKey;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.security.auth.callback.Callback;
 
@@ -37,7 +39,8 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.SeasonView
     public SeasonAdapter(Context context, ClickCallback clickCallback){
         this.context = context;
         this.clickCallback = clickCallback;
-        fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
+        fontAwesomeFont = ResourcesCompat.getFont(context,R.font.fontawesome);
+        //fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
         robotoRegular = TypeFaceHelper.getInstance(context).getStyleTypeFace(TypeFaceHelper.MEDIUM);
 
     }

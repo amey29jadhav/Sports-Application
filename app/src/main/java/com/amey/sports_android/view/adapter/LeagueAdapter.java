@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amey.sports_android.R;
@@ -43,7 +44,8 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
     public LeagueAdapter(Context context, ClickCallback callback){
         this.context = context;
         this.clickCallback = callback;
-        fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
+        //fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
+        fontAwesomeFont = ResourcesCompat.getFont(context,R.font.fontawesome);
         robotoRegular = TypeFaceHelper.getInstance(context).getStyleTypeFace(TypeFaceHelper.MEDIUM);
 
     }

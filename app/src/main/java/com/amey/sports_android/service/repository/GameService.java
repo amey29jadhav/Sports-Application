@@ -10,6 +10,7 @@ import com.amey.sports_android.service.model.TeamModel;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -22,7 +23,15 @@ public interface GameService {
     Call<LeaguesModel> getAllLeagues(@Url String url);
 
     @GET
+    Observable<LeaguesModel> getAllLeaguesObservable(@Url String url);
+
+
+    @GET
     Call<SportsModel> getAllSports(@Url String url);
+
+    @GET
+    Observable<SportsModel> getAllSportsObservable(@Url String url);
+
 
     @GET
     Call<TeamModel> getAllTeams(@Url String url, @Query("l") String leaguename);

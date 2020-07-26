@@ -18,11 +18,19 @@ import com.amey.sports_android.view.callback.ResultInterface;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SportsApi {
+
+    private SportsApi(){
+
+    }
 
     private static SportsApi sportsApi;
 
@@ -65,6 +73,8 @@ public class SportsApi {
         return data;
     }
 
+
+
     public LiveData<List<Leagues>> getAllLeague(final ResultInterface<Leagues> resultInterface){
         final MutableLiveData<List<Leagues>> data = new MutableLiveData<>();
 
@@ -97,6 +107,7 @@ public class SportsApi {
         });
         return data;
     }
+
 
     public LiveData<List<TeamModel.Team>> getAllTeams(final ResultInterface<TeamModel.Team> resultInterface, String leagueName){
         final MutableLiveData<List<TeamModel.Team>> data = new MutableLiveData<>();

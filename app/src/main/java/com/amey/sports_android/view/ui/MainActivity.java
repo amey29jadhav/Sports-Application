@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -38,6 +39,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.pubnub.api.PNConfiguration;
+import com.pubnub.api.PubNub;
+import com.google.gson.JsonObject;
+import com.pubnub.api.models.consumer.PNPublishResult;
+import com.pubnub.api.callbacks.PNCallback;
+import com.pubnub.api.models.consumer.PNStatus;
+
 public class MainActivity extends AppCompatActivity {
 
     public static List<Leagues> lstleagues;
@@ -50,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     SeasonFragment seasonFragment;
     StandingFragment standingFragment;
     MembershipFragment membershipFragment;
+    MembershipForm membershipForm;
     BottomNavigationView bottom_navigation;
     AppCompatTextView headertextview;
     private Typeface fontAwesomeFont;
@@ -82,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fontAwesomeFont = Typeface.createFromAsset(getAssets(), "FontAwesome.otf");
+        fontAwesomeFont = ResourcesCompat.getFont(this,R.font.fontawesome);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -103,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         resetButton.setVisibility(View.GONE);
         //settingstextview.setTypeface(fontAwesomeFont);
 
-        alertDialog = new AlertDialog.Builder(this,R.style.ThemeOverlay_MaterialComponents_Dialog_Alert)
+        alertDialog = new AlertDialog.Builder(this,R.style.AppCompatAlertDialogStyle)
                 .setTitle("Clear Preferences")
                 .setMessage("Do you wish to continue")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -120,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }).create();
+        alertDialog.setCancelable(false);
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
@@ -176,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
         standingFragment = StandingFragment.newInstance();
 
         membershipFragment = MembershipFragment.newInstance();
+        membershipFragment.setClickCallback(memberSignupCallback);
+        membershipForm = MembershipForm.newInstance();
 
 
         teamFragment = TeamFragment.newInstance();
@@ -274,14 +286,28 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+
+
     void openMembershipFragment(){
         toolbar.setVisibility(View.VISIBLE);
         bottom_navigation.setVisibility(View.VISIBLE);
         headertextview.setText(AppConstant.MEMBERSHIP);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        //fragmentManager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, membershipFragment, MembershipFragment.tag);
+        fragmentTransaction.commit();
+    }
+
+    void openMemberShipForm(){
+        bottom_navigation.setVisibility(View.VISIBLE);
+        toolbar.setVisibility(View.VISIBLE);
+        headertextview.setText(AppConstant.MEMBERSHIP_FORM);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        //fragmentManager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, membershipForm, MembershipForm.tag);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -317,5 +343,13 @@ public class MainActivity extends AppCompatActivity {
             openStandingFragment(name);
         }
     };
+
+    ClickCallback memberSignupCallback = new ClickCallback() {
+        @Override
+        public void onClick(Object name) {
+            openMemberShipForm();
+        }
+    };
+
 
 }

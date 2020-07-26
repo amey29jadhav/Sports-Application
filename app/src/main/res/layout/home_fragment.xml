@@ -67,7 +67,7 @@
             android:layout_centerHorizontal="true"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:text="@string/no_game"></androidx.appcompat.widget.AppCompatTextView>
+            android:text="@string/no_past_game"></androidx.appcompat.widget.AppCompatTextView>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/pastGameRecyclerView"
             android:layout_width="match_parent"

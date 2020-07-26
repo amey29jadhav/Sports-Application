@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/eventNameTextview"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"

@@ -73,7 +73,7 @@ public class LastGameAdapter extends RecyclerView.Adapter<LastGameAdapter.Events
             homeTeamTextview = itemView.findViewById(R.id.homeTeamTextview);
             awayTeamTextview = itemView.findViewById(R.id.awayTeamTextview);
 
-            gameStatus.setTypeface(robotoRegular);
+            //gameStatus.setTypeface(robotoRegular);
             homeTeamTextview.setTypeface(robotoRegular);
             awayTeamTextview.setTypeface(robotoRegular);
         }
@@ -90,7 +90,8 @@ public class LastGameAdapter extends RecyclerView.Adapter<LastGameAdapter.Events
             if(events.strPostponed.equalsIgnoreCase("yes")) {
                 gameStatus.setText("Interrupted");
             }else {
-             gameStatus.setText(events.strPostponed);
+                gameStatus.setVisibility(View.GONE);
+             //gameStatus.setText(events.strPostponed);
             }
 
 

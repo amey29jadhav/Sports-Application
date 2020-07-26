@@ -7,7 +7,7 @@
 
     <item
         android:id="@+id/navigation_sms"
-        android:icon="@drawable/home"
+        android:icon="@drawable/season"
         android:title="Season" />
 
     <item

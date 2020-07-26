@@ -1,23 +1,27 @@
 <resources>
-    <string name="app_name">Sports Tracker</string>
+    <string name="app_name">SportsBuddy</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fa_angle_right">&#xf105;</string>
     <string name="fa_check_circle_o">&#xf05d;</string>
     <string name="fa_ban">&#xf05e;</string>
-    <string name="no_game">There are no games available</string>
+    <string name="fa_user">&#xf007;</string>
+    <string name="fa_envelope">&#xf0e0;</string>
+
+    <string name="no_game">There are no Upcoming Events Available</string>
+    <string name="no_past_game">There are no Past Events Available</string>
+
     <string name="sports">Sports</string>
     <string name="leagues">Leagues</string>
     <string name="teams">Teams</string>
 
+
     <string name="startupplan">Startup Plan</string>
     <string name="feature1">Get Live Score</string>
-    <string name ="feature2">Get Rewards Point for every Wining Game</string>
-    <string name ="feature3">Ads-Free User Experience</string>
-    <string name ="feature4">Latest News of your favorite team</string>
-
-
+    <string name="feature2">Get Rewards Point for every Wining Game</string>
+    <string name="feature3">Ads-Free User Experience</string>
+    <string name="feature4">Latest News of your favorite team</string>
 
 
 </resources>

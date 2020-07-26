@@ -5,7 +5,10 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.amey.sports_android.R;
+import com.amey.sports_android.utilities.AppConstant;
 import com.amey.sports_android.utilities.TypeFaceHelper;
+import com.amey.sports_android.view.callback.ClickCallback;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +48,10 @@ public class MembershipFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     AppCompatTextView feature1image, feature2image, feature3image, feature4image;
     AppCompatTextView price, membershipTextView, month, feature1, feature2, feature3, feature4;
+    AppCompatButton signup;
+    ClickCallback clickCallback;
+    MainActivity mainActivity;
+
 
     public MembershipFragment() {
         // Required empty public constructor
@@ -70,7 +79,9 @@ public class MembershipFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        fontAwesomeFont = Typeface.createFromAsset(context.getAssets(), "FontAwesome.otf");
+        mainActivity.headertextview.setText(AppConstant.MEMBERSHIP);
+
+        fontAwesomeFont = ResourcesCompat.getFont(context,R.font.fontawesome);
         robotoRegular = TypeFaceHelper.getInstance(context).getStyleTypeFace(TypeFaceHelper.MEDIUM);
 
 
@@ -101,11 +112,14 @@ public class MembershipFragment extends Fragment {
         feature3.setTypeface(robotoRegular);
         feature4.setTypeface(robotoRegular);
 
-
-
-
-
-
+        signup = view.findViewById(R.id.signup);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(clickCallback !=null)
+                clickCallback.onClick(null);
+            }
+        });
 
 
         return view;
@@ -122,6 +136,7 @@ public class MembershipFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+        this.mainActivity = (MainActivity) context;
 
     }
 
@@ -144,5 +159,10 @@ public class MembershipFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setClickCallback(ClickCallback clickCallback) {
+        this.clickCallback = clickCallback;
+
     }
 }

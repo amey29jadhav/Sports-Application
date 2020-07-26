@@ -20,6 +20,7 @@ import com.amey.sports_android.R;
 import com.amey.sports_android.service.model.Leagues;
 import com.amey.sports_android.service.model.SeasonModel;
 import com.amey.sports_android.service.repository.SportsApi;
+import com.amey.sports_android.utilities.AppConstant;
 import com.amey.sports_android.utilities.SpacesItemDecoration;
 import com.amey.sports_android.view.adapter.LeagueAdapter;
 import com.amey.sports_android.view.adapter.SeasonAdapter;
@@ -40,6 +41,7 @@ public class SeasonFragment extends Fragment {
     SeasonAdapter seasonAdapter;
     private String leagueId;
     ClickCallback clickCallback;
+    MainActivity mainActivity;
 
 
     private SeasonViewModel mViewModel;
@@ -52,12 +54,17 @@ public class SeasonFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+        this.mainActivity = (MainActivity)context;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         leagueId = getArguments().getString("leagueId");
+
+        mainActivity.headertextview.setText(AppConstant.SEASONS);
+
+
 
         view = inflater.inflate(R.layout.season_fragment, container, false);
         seasonRecyclerView = (RecyclerView) view.findViewById(R.id.seasonRecyclerView);

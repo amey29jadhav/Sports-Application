@@ -29,6 +29,12 @@ public class AppConstant {
     public static final String EVENTS ="Events";
     public static final String SEASONS ="Seasons";
     public static final String MEMBERSHIP ="Membership";
+    public static final String MEMBERSHIP_FORM ="Membership Form";
+
+    //Pubnub
+    public static final String PUBLISH_KEY ="pub-c-f2d8d4f9-5316-4f67-9f29-16a740d26bdc";
+    public static final String SUBSCRIBE_KEY ="sub-c-36c500be-8e52-11ea-8504-ea59babdc551";
+    public static final String SECRET_KEY ="sec-c-ZGY3MzUyYzEtMzRkMi00Y2YzLWExM2EtODI1ZTAwYjFiYmY2";
 
 
 
